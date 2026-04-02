@@ -15,7 +15,7 @@ def bfs_file_duplicate_tracker(graph, state_awal, state_akhir):
     """
     queue = deque()
     queue.append((state_awal, [state_awal]))
-
+    
     found_paths = []
     iteration = 0
 

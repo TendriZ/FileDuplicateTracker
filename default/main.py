@@ -85,20 +85,23 @@ def bfs_file_duplicate_tracker(graph, state_awal, state_akhir):
 
 # Graph: struktur direktori sebagai adjacency list
 graph = {
-    "C:// (Root)": ["Documents", "Downloads", "Desktop"],
-    "Documents": ["Tugas", "Foto"],
-    "Downloads": ["Modul", "Lagu"],
+    "C:// (Root)": ["Desktop", "Downloads", "Documents"],
     "Desktop": ["Aplikasi", "Lain-lain"],
-    "Tugas": ["essay.pdf", "Tugas.pdf"],
+    "Downloads": ["Modul", "Lagu"],
+    "Documents": ["Tugas", "Foto"],
+    "Aplikasi": ["Notion.apk"],
+    "Lain-lain": ["foto.png", "Essay.pdf"],
+    "Modul": ["Modul1.pdf"],
+    "Lagu": ["telepatia-KaliUchis.mp3"],
     "Foto": ["kucing.jpg"],
-    "Modul": ["Modul 1.pdf"],
-    "Lagu": ["Cinta Satu Malam.mp3"],
-    "Aplikasi": ["Notion"],
-    "Lain-lain": ["essay.pdf", "foto.png"],
+    "Tugas": ["Tugas SMT 1", "Tugas SMT 2", "Tugas SMT 3"],
+    "Tugas SMT 1": ["Modul Matdis 1.pdf", "Tugas 1 Matdis.docs"],
+    "Tugas SMT 2": ["Tugas ADSI 5.pdf"],
+    "Tugas SMT 3": ["Resume RKPL 7.pdf", "Essay.pdf", "Praktikum 1.pdf"],
 }
 
 state_awal = "C:// (Root)"   # Direktori root (node awal)
-state_akhir = "essay.pdf"    # Nama file yang dicari duplikatnya
+state_akhir = "Essay.pdf"    # Nama file yang dicari duplikatnya
 
 # Jalankan BFS
 hasil = bfs_file_duplicate_tracker(graph, state_awal, state_akhir)
