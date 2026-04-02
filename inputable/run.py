@@ -1,21 +1,28 @@
+#DI file ini berfungsi sebagai runner dengan memanggil fungsi
+# yang ada di funcFileTrack.py
 from funcFileTrack import bfs_file_duplicate_tracker
 
 # Graph: struktur direktori sebagai adjacency list
 graph = {
-    "C:// (Root)": ["Documents", "Downloads", "Desktop"],
-    "Documents": ["Tugas", "Foto"],
-    "Downloads": ["Modul", "Lagu"],
+    "C:// (Root)": ["Desktop", "Downloads", "Documents"],
     "Desktop": ["Aplikasi", "Lain-lain"],
-    "Tugas": ["essay.pdf", "Tugas.pdf"],
+    "Downloads": ["Modul", "Lagu"],
+    "Documents": ["Tugas", "Foto"],
+    "Aplikasi": ["Notion.apk"],
+    "Lain-lain": ["foto.png", "Essay.pdf"],
+    "Modul": ["Modul1.pdf"],
+    "Lagu": ["telepatia-KaliUchis.mp3"],
     "Foto": ["kucing.jpg"],
-    "Modul": ["Modul 1.pdf"],
-    "Lagu": ["Cinta Satu Malam.mp3"],
-    "Aplikasi": ["Notion"],
-    "Lain-lain": ["essay.pdf", "foto.png"],
+    "Tugas": ["Tugas SMT 1", "Tugas SMT 2", "Tugas SMT 3"],
+    "Tugas SMT 1": ["Modul Matdis 1.pdf", "Tugas 1 Matdis.docs"],
+    "Tugas SMT 2": ["Tugas ADSI 5.pdf"],
+    "Tugas SMT 3": ["Resume RKPL 7.pdf", "Essay.pdf", "Praktikum 1.pdf"],
 }
 
 # Kumpulkan semua folder (node yang punya children)
 folders = [key for key in graph]
+#nampilin berapa banyak folder yang ada di graph
+print("Ada sebanyak", len(folders), "folder yang tersedia.")
 
 # Kumpulkan semua file (leaf node yang tidak ada di graph keys)
 all_files = set()
