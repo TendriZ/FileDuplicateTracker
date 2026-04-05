@@ -15,9 +15,9 @@ def bfs_file_duplicate_tracker(graph, state_awal, state_akhir):
     """
     queue = deque()
     queue.append((state_awal, [state_awal]))
-    
+
     found_paths = []
-    iteration = 0
+    iteration = 0  # dihitung untuk SEMUA node yang dikunjungi (folder + file)
 
     print(f"\n{'='*60}")
     print(f"  APLIKASI DETEKSI FILE DUPLIKAT")
@@ -29,21 +29,21 @@ def bfs_file_duplicate_tracker(graph, state_awal, state_akhir):
 
     while queue:
         current, path = queue.popleft()
+        iteration += 1  
+        full_path = " - ".join(path)
 
         if current not in graph:
-            iteration += 1
-            full_path = " - ".join(path)
-
+            # Node ini adalah FILE (leaf node)
             if current.lower() == state_akhir.lower():
                 found_paths.append(path)
                 if len(found_paths) == 1:
                     print(f"  {iteration}. {full_path}")
-                    print(f"     -> DITEMUKAN (keadaan awal), iterasi ke {iteration - 1}")
+                    print(f"      -> '{state_akhir}' adalah file yang ingin kita cari duplikatnya, iterasi ke {iteration}")
                 else:
                     print(f"  {iteration}. {full_path}")
-                    print(f"     -> FILE DUPLIKAT!, iterasi ke {iteration - 1}")
+                    print(f"      -> DITEMUKAN FILE DUPLIKAT!, iterasi ke {iteration}")
             else:
-                print(f"  {iteration}. {full_path} <- iterasi ke {iteration - 1}")
+                print(f"  {iteration}. {full_path} <- iterasi ke {iteration}")
 
             if len(found_paths) >= 2:
                 remaining = len(queue)
@@ -51,6 +51,8 @@ def bfs_file_duplicate_tracker(graph, state_awal, state_akhir):
                     print(f"\n  >> {remaining} node tidak dikunjungi (BFS selesai)")
                 break
         else:
+            # Node ini adalah FOLDER, cetak dan masukkan children ke queue
+            print(f"  {iteration}. {full_path} (folder) <- iterasi ke {iteration}")
             for child in graph[current]:
                 queue.append((child, path + [child]))
 
@@ -68,8 +70,10 @@ def bfs_file_duplicate_tracker(graph, state_awal, state_akhir):
     elif len(found_paths) == 1:
         print(f"File '{state_akhir}' hanya ditemukan 1 kali.")
         print("Tidak ada duplikat.")
+        print(f"\nTotal iterasi BFS: {iteration}")
     else:
         print(f"File '{state_akhir}' tidak ditemukan.")
+        print(f"\nTotal iterasi BFS: {iteration}")
 
     print(f"{'='*60}")
 

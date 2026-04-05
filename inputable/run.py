@@ -23,13 +23,18 @@ graph = {
 folders = [key for key in graph]
 #nampilin berapa banyak folder yang ada di graph
 print("Ada sebanyak", len(folders), "folder yang tersedia.")
+print("Daftar folder:", folders)  # Debug: tampilkan daftar folder yang tersedia
 
 # Kumpulkan semua file (leaf node yang tidak ada di graph keys)
 all_files = set()
 for children in graph.values():
+    print("Children:", children)  # Debug: tampilkan children yang sedang diproses  
     for child in children:
+        print("Processing child:", child)  # Debug: tampilkan child yang sedang diproses
         if child not in graph:
+            print("Adding file:", child)  # Debug: tampilkan file yang ditambahkan
             all_files.add(child)
+            print("Current all_files set:", all_files)  # Debug: tampilkan isi all_files setelah penambahan
 all_files = sorted(all_files)
 
 # Pilih state awal (folder)
@@ -40,9 +45,9 @@ for i, folder in enumerate(folders, 1):
     print(f"  {i}. {folder}")
 print()
 while True:
-    pilihan_awal = input("Masukkan nomor direktori awal: ")
-    if pilihan_awal.isdigit() and 1 <= int(pilihan_awal) <= len(folders):
-        state_awal = folders[int(pilihan_awal) - 1]
+    pilihan_keadaan_awal = input("Masukkan nomor direktori awal: ")
+    if pilihan_keadaan_awal.isdigit() and 1 <= int(pilihan_keadaan_awal) <= len(folders):
+        state_awal = folders[int(pilihan_keadaan_awal) - 1] #argument penting untuk menentukan state awal yang dipilih user
         break
     print("  Input tidak valid, coba lagi.")
 
@@ -55,9 +60,9 @@ for i, file in enumerate(all_files, 1):
     print(f"  {i}. {file}")
 print()
 while True:
-    pilihan_akhir = input("Masukkan nomor file yang dicari: ")
-    if pilihan_akhir.isdigit() and 1 <= int(pilihan_akhir) <= len(all_files):
-        state_akhir = all_files[int(pilihan_akhir) - 1]
+    pilihan_keadaan_akhir = input("Masukkan nomor file yang dicari: ")
+    if pilihan_keadaan_akhir.isdigit() and 1 <= int(pilihan_keadaan_akhir) <= len(all_files):
+        state_akhir = all_files[int(pilihan_keadaan_akhir) - 1] #argument penting untuk menentukan state akhir yang dipilih user
         break
     print("  Input tidak valid, coba lagi.")
 
