@@ -1,6 +1,9 @@
 from collections import deque
 
 
+# di file ini berfungsi sebagai callee yang akan dipanggil oleh run.py
+from collections import deque
+
 def bfs_file_duplicate_tracker(graph, state_awal, state_akhir):
     """
     BFS untuk mendeteksi file duplikat dalam sistem file manager.
@@ -17,46 +20,47 @@ def bfs_file_duplicate_tracker(graph, state_awal, state_akhir):
     queue.append((state_awal, [state_awal]))
 
     found_paths = []
-    iteration = 0
+    iteration = 0  # dihitung untuk SEMUA node yang dikunjungi (folder + file)
 
     print(f"\n{'='*60}")
     print(f"  APLIKASI DETEKSI FILE DUPLIKAT")
-    print(f"  File yang dicari : '{state_akhir}'")
     print(f"  Direktori awal   : {state_awal}")
+    print(f"  File yang dicari : '{state_akhir}'")
     print(f"{'='*60}")
     print(f"\nProses BFS:")
     print("-" * 60)
 
     while queue:
-        current, path = queue.popleft()
+        currentNode, path = queue.popleft()
+        print(f"\nCurrent node: '{currentNode}'")
+        print(f"Current path: {path}")
+        iteration += 1  
+        full_path = " - ".join(path)
 
-        # Jika node adalah file (leaf node / tidak punya children di graph)
-        if current not in graph:
-            iteration += 1
-            full_path = " - ".join(path)
-
-            if current.lower() == state_akhir.lower():
+        if currentNode not in graph:
+            # Node ini adalah FILE (leaf node), cek apakah ini file yang dicari
+            if currentNode.lower() == state_akhir.lower():
                 found_paths.append(path)
                 if len(found_paths) == 1:
                     print(f"  {iteration}. {full_path}")
-                    print(f"     -> DITEMUKAN (keadaan awal), iterasi ke {iteration - 1}")
+                    print(f"      -> '{state_akhir}' adalah file yang ingin kita cari duplikatnya, iterasi ke {iteration}")
                 else:
                     print(f"  {iteration}. {full_path}")
-                    print(f"     -> FILE DUPLIKAT!, iterasi ke {iteration - 1}")
+                    print(f"      -> DITEMUKAN FILE DUPLIKAT!, iterasi ke {iteration}")
             else:
-                print(f"  {iteration}. {full_path} <- iterasi ke {iteration - 1}")
+                print(f"  {iteration}. {full_path} <- iterasi ke {iteration}")
 
-            # Berhenti jika duplikat sudah ditemukan
             if len(found_paths) >= 2:
                 remaining = len(queue)
                 if remaining > 0:
                     print(f"\n  >> {remaining} node tidak dikunjungi (BFS selesai)")
                 break
         else:
-            # Node adalah folder, tambahkan children ke queue
-            for child in graph[current]:
+            # Node ini adalah FOLDER, cetak dan masukkan children ke queue
+            print(f"  {iteration}. {full_path} (folder) <- iterasi ke {iteration}")
+            for child in graph[currentNode]:
                 queue.append((child, path + [child]))
-
+    
     # Cetak hasil
     print(f"\n{'='*60}")
     print("HASIL PENCARIAN:")
@@ -71,8 +75,10 @@ def bfs_file_duplicate_tracker(graph, state_awal, state_akhir):
     elif len(found_paths) == 1:
         print(f"File '{state_akhir}' hanya ditemukan 1 kali.")
         print("Tidak ada duplikat.")
+        print(f"\nTotal iterasi BFS: {iteration}")
     else:
         print(f"File '{state_akhir}' tidak ditemukan.")
+        print(f"\nTotal iterasi BFS: {iteration}")
 
     print(f"{'='*60}")
 
@@ -88,10 +94,10 @@ graph = {
     "C:// (Root)": ["Desktop", "Downloads", "Documents"],
     "Desktop": ["Aplikasi", "Lain-lain"],
     "Downloads": ["Modul", "Lagu"],
-    "Documents": ["Tugas", "Foto"],
+    "Documents": ["Foto", "Tugas"],
     "Aplikasi": ["Notion.apk"],
     "Lain-lain": ["foto.png", "Essay.pdf"],
-    "Modul": ["Modul1.pdf"],
+    "Modul": ["Modul 1.pdf"],
     "Lagu": ["telepatia-KaliUchis.mp3"],
     "Foto": ["kucing.jpg"],
     "Tugas": ["Tugas SMT 1", "Tugas SMT 2", "Tugas SMT 3"],

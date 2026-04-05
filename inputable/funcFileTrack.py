@@ -21,20 +21,22 @@ def bfs_file_duplicate_tracker(graph, state_awal, state_akhir):
 
     print(f"\n{'='*60}")
     print(f"  APLIKASI DETEKSI FILE DUPLIKAT")
-    print(f"  File yang dicari : '{state_akhir}'")
     print(f"  Direktori awal   : {state_awal}")
+    print(f"  File yang dicari : '{state_akhir}'")
     print(f"{'='*60}")
     print(f"\nProses BFS:")
     print("-" * 60)
 
     while queue:
-        current, path = queue.popleft()
+        currentNode, path = queue.popleft()
+        print(f"\nCurrent node: '{currentNode}'")
+        print(f"Current path: {path}")
         iteration += 1  
         full_path = " - ".join(path)
 
-        if current not in graph:
-            # Node ini adalah FILE (leaf node)
-            if current.lower() == state_akhir.lower():
+        if currentNode not in graph:
+            # Node ini adalah FILE (leaf node), cek apakah ini file yang dicari
+            if currentNode.lower() == state_akhir.lower():
                 found_paths.append(path)
                 if len(found_paths) == 1:
                     print(f"  {iteration}. {full_path}")
@@ -53,9 +55,9 @@ def bfs_file_duplicate_tracker(graph, state_awal, state_akhir):
         else:
             # Node ini adalah FOLDER, cetak dan masukkan children ke queue
             print(f"  {iteration}. {full_path} (folder) <- iterasi ke {iteration}")
-            for child in graph[current]:
+            for child in graph[currentNode]:
                 queue.append((child, path + [child]))
-
+    
     # Cetak hasil
     print(f"\n{'='*60}")
     print("HASIL PENCARIAN:")
